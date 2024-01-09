@@ -2,6 +2,7 @@ package com.example.productservice.services;
 
 import com.example.productservice.dtos.FakeStoreApiProductDto;
 import com.example.productservice.dtos.GenericProductDto;
+import com.example.productservice.exceptions.NotFoundException;
 import com.example.productservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -27,10 +28,11 @@ public class FakeStoreApiProductService implements ProductService{
     }
 
     @Override
-    public GenericProductDto getProductById(Long id) {
+    public GenericProductDto getProductById(Long id) throws NotFoundException {
         RestTemplate restTemplate =  restTemplateBuilder.build();
         ResponseEntity<FakeStoreApiProductDto> response = restTemplate.getForEntity(getProductByIdUrl,
                 FakeStoreApiProductDto.class, id);
+        if(!response.hasBody()) throw new NotFoundException("The id: " + id + " id not found");
         return dtoMapper(response.getBody());
     }
 

@@ -1,6 +1,7 @@
 package com.example.productservice.controllers;
 
 import com.example.productservice.dtos.GenericProductDto;
+import com.example.productservice.exceptions.NotFoundException;
 import com.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,11 @@ public class ProductController {
         return productService.getAllProducts();
     }
     @GetMapping("{id}")
-    public GenericProductDto getProductById(@PathVariable("id") Long id){
+    public GenericProductDto getProductById(@PathVariable("id") Long id) throws NotFoundException {
         return productService.getProductById(id);
 
     }
-    @PutMapping("{id}")
+    @PutMapping ("{id}")
     public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") Long id){
         return productService.updateProductById(genericProductDto, id);
     }
