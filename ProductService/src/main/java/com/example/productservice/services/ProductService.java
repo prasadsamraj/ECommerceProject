@@ -10,7 +10,7 @@ public interface ProductService {
 
     GenericProductDto createProduct(GenericProductDto genericProductDto);
 
-    GenericProductDto updateProductById(GenericProductDto genericProductDto, Long id);
+    GenericProductDto updateProductById(GenericProductDto genericProductDto, Long id) throws NotFoundException;
 
     List<GenericProductDto> getAllProducts();
 }
