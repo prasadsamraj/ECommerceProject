@@ -6,11 +6,13 @@ import com.example.productservice.exceptions.NotFoundException;
 import java.util.List;
 
 public interface ProductService {
-    GenericProductDto getProductById(Long id) throws NotFoundException;
+    GenericProductDto getProductById(String id) throws NotFoundException;
 
     GenericProductDto createProduct(GenericProductDto genericProductDto);
 
-    GenericProductDto updateProductById(GenericProductDto genericProductDto, Long id) throws NotFoundException;
+    GenericProductDto updateProductById(GenericProductDto genericProductDto, String id) throws NotFoundException;
 
     List<GenericProductDto> getAllProducts();
+
+    GenericProductDto deleteProductById(String id) throws NotFoundException;
 }

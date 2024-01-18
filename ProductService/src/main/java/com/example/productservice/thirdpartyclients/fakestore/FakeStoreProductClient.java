@@ -19,6 +19,7 @@ public class FakeStoreProductClient {
     String updateProductByIdUrl;
     String createProductUrl;
     String getAllProductsUrl;
+    String deleteProductByIdUrl;
     RestTemplateBuilder restTemplateBuilder;
     @Autowired
     public FakeStoreProductClient(RestTemplateBuilder restTemplateBuilder,
@@ -29,9 +30,10 @@ public class FakeStoreProductClient {
         this.getAllProductsUrl = fakeStoreBaseUrl + productEndpoint;
         this.getProductByIdUrl = fakeStoreBaseUrl + productEndpoint + "/{id}";
         this.updateProductByIdUrl = fakeStoreBaseUrl + productEndpoint + "/{id}";
+        this.deleteProductByIdUrl = fakeStoreBaseUrl + productEndpoint + "/{id}";
     }
 
-    public FakeStoreApiProductDto getProductById(Long id) throws NotFoundException {
+    public FakeStoreApiProductDto getProductById(String id) throws NotFoundException {
         RestTemplate restTemplate =  restTemplateBuilder.build();
         ResponseEntity<FakeStoreApiProductDto> response = restTemplate.getForEntity(getProductByIdUrl,
                 FakeStoreApiProductDto.class, id);
@@ -46,7 +48,7 @@ public class FakeStoreProductClient {
         return response.getBody();
     }
 
-    public FakeStoreApiProductDto updateProductById(FakeStoreApiProductDto fakeStoreApiProductDto, Long id) throws NotFoundException {
+    public FakeStoreApiProductDto updateProductById(FakeStoreApiProductDto fakeStoreApiProductDto, String id) throws NotFoundException {
         RestTemplate restTemplate = restTemplateBuilder.build();
         ResponseEntity<FakeStoreApiProductDto> response =
                 restTemplate.exchange(
@@ -69,6 +71,19 @@ public class FakeStoreProductClient {
                 new ParameterizedTypeReference<>() {
                 }
         );
+        return response.getBody();
+    }
+
+    public FakeStoreApiProductDto deleteProductById(String id) throws NotFoundException{
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreApiProductDto> response = restTemplate.exchange(
+                deleteProductByIdUrl,
+                HttpMethod.DELETE,
+                null,
+                FakeStoreApiProductDto.class,
+                id
+        );
+        if(!response.hasBody()) throw new NotFoundException("The id: " + id + " id not found");
         return response.getBody();
     }
 }
