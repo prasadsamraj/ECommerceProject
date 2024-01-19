@@ -1,6 +1,5 @@
 package com.example.productservice.mappers;
 
-import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.thirdpartyclients.fakestore.dtos.FakeStoreApiProductDto;
 import com.example.productservice.dtos.GenericProductDto;
