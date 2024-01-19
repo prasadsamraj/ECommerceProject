@@ -1,5 +1,6 @@
 package com.example.productservice.mappers;
 
+import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.thirdpartyclients.fakestore.dtos.FakeStoreApiProductDto;
 import com.example.productservice.dtos.GenericProductDto;
@@ -47,6 +48,7 @@ public class DtoMapper {
         if(product.getUuid()!=null) {
             genericProductDto.setId(product.getUuid().toString());
         }
+        genericProductDto.setCategory(product.getCategory().getName());
         genericProductDto.setDescription(product.getDescription());
         genericProductDto.setImage(product.getImage());
         genericProductDto.setPrice(product.getPrice());

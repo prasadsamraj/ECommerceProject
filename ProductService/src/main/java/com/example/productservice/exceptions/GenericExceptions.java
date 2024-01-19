@@ -12,4 +12,8 @@ public class GenericExceptions {
     public ResponseEntity<ExceptionDto> notFoundException(NotFoundException notFoundException){
         return new ResponseEntity<>(new ExceptionDto(HttpStatus.NOT_FOUND, notFoundException.getMessage()), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(InvalidCategoryException.class)
+    public ResponseEntity<ExceptionDto> invalidCategoryException(InvalidCategoryException invalidCategoryException){
+        return new ResponseEntity<>(new ExceptionDto(HttpStatus.BAD_REQUEST, invalidCategoryException.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }

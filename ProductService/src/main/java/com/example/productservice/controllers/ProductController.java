@@ -1,6 +1,7 @@
 package com.example.productservice.controllers;
 
 import com.example.productservice.dtos.GenericProductDto;
+import com.example.productservice.exceptions.InvalidCategoryException;
 import com.example.productservice.exceptions.NotFoundException;
 import com.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 public class ProductController {
     ProductService productService;
     @Autowired
-    public ProductController(@Qualifier("fakeStoreApiProductService") ProductService productService) {
+    public ProductController(@Qualifier("selfProductService") ProductService productService) {
         this.productService = productService;
     }
 
@@ -28,11 +29,11 @@ public class ProductController {
 
     }
     @PutMapping ("{id}")
-    public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") String id) throws NotFoundException {
+    public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") String id) throws NotFoundException, InvalidCategoryException {
         return productService.updateProductById(genericProductDto, id);
     }
     @PostMapping
-    public GenericProductDto createProduct(@RequestBody GenericProductDto genericProductDto){
+    public GenericProductDto createProduct(@RequestBody GenericProductDto genericProductDto) throws InvalidCategoryException {
         return productService.createProduct(genericProductDto);
     }
     @DeleteMapping("{id}")
@@ -44,7 +45,13 @@ public class ProductController {
         return productService.getAllCategories();
     }
     @GetMapping("/category/{category}")
-    public List<GenericProductDto> getProductsByCategory(@PathVariable("category") String category) throws NotFoundException{
+    public List<GenericProductDto> getProductsByCategory(@PathVariable("category") String category) throws InvalidCategoryException, NotFoundException {
         return productService.getProductsByCategory(category);
     }
+/*    @PostMapping("/category/{category}")
+    public void addCategory(@PathVariable("category") String category){
+        Category newCategory = new Category();
+        newCategory.setName(category);
+        categoryRepository.save(newCategory);
+    }*/
 }
