@@ -41,4 +41,14 @@ public class FakeStoreApiProductService implements ProductService{
     public GenericProductDto deleteProductById(String id) throws NotFoundException {
         return DtoMapper.fakeStoreToGenericProductDtoMapper(fakeStoreProductClient.deleteProductById(id));
     }
+
+    @Override
+    public List<String> getAllCategories() {
+        return fakeStoreProductClient.getAllCategories();
+    }
+
+    @Override
+    public List<GenericProductDto> getProductsByCategory(String category) throws NotFoundException {
+        return fakeStoreProductClient.getProductsByCategory(category).stream().map(DtoMapper::fakeStoreToGenericProductDtoMapper).toList();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.productservice.thirdpartyclients.fakestore;
 
+import com.example.productservice.dtos.GenericProductDto;
 import com.example.productservice.exceptions.NotFoundException;
 import com.example.productservice.thirdpartyclients.fakestore.dtos.FakeStoreApiProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,22 @@ public class FakeStoreProductClient {
     String createProductUrl;
     String getAllProductsUrl;
     String deleteProductByIdUrl;
+    String getAllCategoriesUrl;
+    String getProductByCategoryUrl;
     RestTemplateBuilder restTemplateBuilder;
     @Autowired
     public FakeStoreProductClient(RestTemplateBuilder restTemplateBuilder,
                                   @Value("${fakestore.api.baseurl}") String fakeStoreBaseUrl,
-                                  @Value("${fakestore.api.product}") String productEndpoint) {
+                                  @Value("${fakestore.api.product}") String productEndpoint,
+                                  @Value("${fakestore.api.category}") String categoryEndpoint) {
         this.restTemplateBuilder = restTemplateBuilder;
         this.createProductUrl = fakeStoreBaseUrl + productEndpoint;
         this.getAllProductsUrl = fakeStoreBaseUrl + productEndpoint;
         this.getProductByIdUrl = fakeStoreBaseUrl + productEndpoint + "/{id}";
         this.updateProductByIdUrl = fakeStoreBaseUrl + productEndpoint + "/{id}";
         this.deleteProductByIdUrl = fakeStoreBaseUrl + productEndpoint + "/{id}";
+        this.getAllCategoriesUrl = fakeStoreBaseUrl + productEndpoint + categoryEndpoint;
+        this.getProductByCategoryUrl = fakeStoreBaseUrl + productEndpoint + "/category/{category}";
     }
 
     public FakeStoreApiProductDto getProductById(String id) throws NotFoundException {
@@ -84,6 +90,30 @@ public class FakeStoreProductClient {
                 id
         );
         if(!response.hasBody()) throw new NotFoundException("The id: " + id + " id not found");
+        return response.getBody();
+    }
+
+    public List<String> getAllCategories() {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<List<String>> response = restTemplate.exchange(
+                getAllCategoriesUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>(){}
+        );
+        return response.getBody();
+    }
+
+    public List<FakeStoreApiProductDto> getProductsByCategory(String category) throws NotFoundException{
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<List<FakeStoreApiProductDto>> response = restTemplate.exchange(
+                getProductByCategoryUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {},
+                category
+        );
+        if(response.getBody().isEmpty()) throw new NotFoundException("No products found for the category: " + category);
         return response.getBody();
     }
 }

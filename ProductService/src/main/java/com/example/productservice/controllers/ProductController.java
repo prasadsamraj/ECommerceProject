@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductController {
     ProductService productService;
     @Autowired
-    public ProductController(@Qualifier("selfProductService") ProductService productService) {
+    public ProductController(@Qualifier("fakeStoreApiProductService") ProductService productService) {
         this.productService = productService;
     }
 
@@ -38,5 +38,13 @@ public class ProductController {
     @DeleteMapping("{id}")
     public GenericProductDto deleteProductById(@PathVariable("id") String id) throws NotFoundException{
         return productService.deleteProductById(id);
+    }
+    @GetMapping("/categories")
+    public List<String> getAllCategories(){
+        return productService.getAllCategories();
+    }
+    @GetMapping("/category/{category}")
+    public List<GenericProductDto> getProductsByCategory(@PathVariable("category") String category) throws NotFoundException{
+        return productService.getProductsByCategory(category);
     }
 }

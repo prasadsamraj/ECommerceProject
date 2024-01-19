@@ -49,4 +49,14 @@ public class SelfProductService implements ProductService {
     public GenericProductDto deleteProductById(String id) throws NotFoundException {
         return null;
     }
+
+    @Override
+    public List<String> getAllCategories() {
+        return null;
+    }
+
+    @Override
+    public List<GenericProductDto> getProductsByCategory(String category) throws NotFoundException {
+        return null;
+    }
 }
