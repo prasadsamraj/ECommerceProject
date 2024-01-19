@@ -1,6 +1,5 @@
 package com.example.productservice.thirdpartyclients.fakestore;
 
-import com.example.productservice.dtos.GenericProductDto;
 import com.example.productservice.exceptions.NotFoundException;
 import com.example.productservice.thirdpartyclients.fakestore.dtos.FakeStoreApiProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
