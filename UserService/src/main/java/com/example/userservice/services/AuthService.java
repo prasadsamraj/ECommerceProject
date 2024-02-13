@@ -1,15 +1,11 @@
 package com.example.userservice.services;
 
 import com.example.userservice.dtos.GenericUserDto;
-import com.example.userservice.exceptions.InvalidRoleIdException;
 import com.example.userservice.exceptions.InvalidUserCredentialsException;
-import com.example.userservice.exceptions.InvalidUserIdException;
 import com.example.userservice.exceptions.UserAlreadyExistsException;
-import com.example.userservice.models.Role;
 import com.example.userservice.models.Session;
 import com.example.userservice.models.SessionStatus;
 import com.example.userservice.models.User;
-import com.example.userservice.repositories.RoleRepository;
 import com.example.userservice.repositories.SessionRepository;
 import com.example.userservice.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -82,7 +78,7 @@ public class AuthService {
             return SessionStatus.ENDED;
         }
         try {
-            Jws<Claims> claimsJws = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
+            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
         } catch (JwtException | IllegalArgumentException e) {
             return SessionStatus.ENDED;
         }
