@@ -26,7 +26,6 @@ public class ProductController {
     @GetMapping("{id}")
     public GenericProductDto getProductById(@PathVariable("id") String id) throws NotFoundException {
         return productService.getProductById(id);
-
     }
     @PutMapping ("{id}")
     public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") String id) throws NotFoundException, InvalidCategoryException {
@@ -48,10 +47,5 @@ public class ProductController {
     public List<GenericProductDto> getProductsByCategory(@PathVariable("category") String category) throws InvalidCategoryException, NotFoundException {
         return productService.getProductsByCategory(category);
     }
-/*    @PostMapping("/category/{category}")
-    public void addCategory(@PathVariable("category") String category){
-        Category newCategory = new Category();
-        newCategory.setName(category);
-        categoryRepository.save(newCategory);
-    }*/
+
 }
