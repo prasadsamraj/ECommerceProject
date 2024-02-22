@@ -5,7 +5,7 @@ import com.example.productservice.exceptions.InvalidCategoryException;
 import com.example.productservice.exceptions.NotFoundException;
 import com.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    ProductService productService;
+    private ProductService productService;
     @Autowired
-    public ProductController(@Qualifier("selfProductService") ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -24,7 +24,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
     @GetMapping("{id}")
-    public GenericProductDto getProductById(@PathVariable("id") String id) throws NotFoundException {
+    public GenericProductDto getProductById(@PathVariable("id") String id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authToken) throws NotFoundException {
         return productService.getProductById(id);
     }
     @PutMapping ("{id}")
