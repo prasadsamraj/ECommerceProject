@@ -6,6 +6,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentLink;
 import com.stripe.model.Price;
 import com.stripe.model.Product;
+import com.stripe.net.RequestOptions;
 import com.stripe.param.PaymentLinkCreateParams;
 import com.stripe.param.PriceCreateParams;
 import com.stripe.param.ProductCreateParams;
@@ -16,6 +17,10 @@ public class StripePaymentGateway implements PaymentGateway{
     @Override
     public String generatePaymentLink(String orderId) throws StripeException {
         Stripe.apiKey = "test_key";
+//        RequestOptions options =
+//                RequestOptions.builder()
+//                        .setIdempotencyKey("KG5LxwFBepaKHyUD")
+//                        .build();
 
         ProductCreateParams productParams = ProductCreateParams.builder()
                                             .setName("Gold Plan")

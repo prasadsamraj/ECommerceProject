@@ -4,8 +4,10 @@ import com.example.productservice.dtos.GenericProductDto;
 import com.example.productservice.exceptions.InvalidCategoryException;
 import com.example.productservice.exceptions.NotFoundException;
 import com.example.productservice.services.ProductService;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
     @GetMapping("{id}")
-    public GenericProductDto getProductById(@PathVariable("id") String id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authToken) throws NotFoundException {
+    public GenericProductDto getProductById(@PathVariable("id") String id, @Nullable @RequestHeader(HttpHeaders.AUTHORIZATION) String authToken) throws NotFoundException {
         return productService.getProductById(id);
     }
     @PutMapping ("{id}")

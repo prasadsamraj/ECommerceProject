@@ -18,10 +18,13 @@ public class SpringConfig{
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors().disable();
+        http.csrf().disable();
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/actuator/health").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
+                       // .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .oauth2ResourceServer(oath2->oath2.jwt(Customizer.withDefaults()));

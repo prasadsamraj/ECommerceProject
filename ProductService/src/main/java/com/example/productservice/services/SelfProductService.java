@@ -10,7 +10,9 @@ import com.example.productservice.repositories.CategoryRepository;
 import com.example.productservice.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,18 +23,29 @@ import java.util.UUID;
 public class SelfProductService implements ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
+    RedisTemplate<String, Object> redisTemplate;
+
+    RestTemplate restTemplate;
     @Autowired
-    public SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository, RedisTemplate<String, Object> redisTemplate, RestTemplate restTemplate) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.redisTemplate = redisTemplate;
+        this.restTemplate = restTemplate;
     }
-
     @Override
     public GenericProductDto getProductById(String id) throws NotFoundException {
+        Object object = restTemplate.getForEntity("http://userservice/users/7a8915c8-23e4-43e0-9ec1-fdd91f61c40d", Object.class);
+        System.out.println(object);
+        GenericProductDto genericProductDtoFromCache = (GenericProductDto) redisTemplate.opsForValue().get(id);
+        if(genericProductDtoFromCache!=null)
+            return genericProductDtoFromCache;
         Optional<Product> optionalProduct = productRepository.findById(UUID.fromString(id));
         if(optionalProduct.isEmpty()) throw new NotFoundException("The requested product with id: " + id + " doesn't exists");
         Product product = optionalProduct.get();
-        return DtoMapper.productToGenericProductDtoMapper(product);
+        GenericProductDto genericProductDto = DtoMapper.productToGenericProductDtoMapper(product);
+        redisTemplate.opsForValue().set(id, genericProductDto);
+        return genericProductDto;
     }
 
     @Override
