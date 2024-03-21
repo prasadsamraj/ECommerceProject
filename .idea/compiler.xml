@@ -12,11 +12,13 @@
         <module name="ServiceDiscoveryService" />
         <module name="ProductService" />
         <module name="PaymentService" />
+        <module name="Gateway" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Gateway" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
       <module name="PaymentService" options="-parameters" />
       <module name="ProductService" options="-parameters" />
