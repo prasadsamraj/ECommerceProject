@@ -7,12 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="NotificationService" />
         <module name="UserService" />
-        <module name="ServiceDiscoveryService" />
         <module name="ProductService" />
-        <module name="PaymentService" />
         <module name="Gateway" />
+        <module name="NotificationService" />
+        <module name="OrderService" />
+        <module name="ServiceDiscoveryService" />
+        <module name="PaymentService" />
       </profile>
     </annotationProcessing>
   </component>
@@ -20,6 +21,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Gateway" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
+      <module name="OrderService" options="-parameters" />
       <module name="PaymentService" options="-parameters" />
       <module name="ProductService" options="-parameters" />
       <module name="ServiceDiscoveryService" options="-parameters" />

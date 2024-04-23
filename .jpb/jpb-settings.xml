@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DatabaseMigrationSettings" lastSelectedDirectory="C:\Users\prasa\IdeaProjects\ECommerce Project\UserService\src\main\resources\db\migration" />
+  <component name="DatabaseMigrationSettings" lastSelectedDirectory="OrderService/src/main/resources/db/migration" />
   <component name="PersistenceUnitSettings">
     <persistence-units>
       <persistence-unit name="Default">
         <packages>
-          <package value="com.example.userservice" />
+          <package value="com.example.orderservice" />
         </packages>
       </persistence-unit>
     </persistence-units>
